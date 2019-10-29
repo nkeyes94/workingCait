@@ -19,18 +19,18 @@ class Dashboard extends Component {
 
       <div>
         <Helmet>
-          <script src="https://code.responsivevoice.org/responsivevoice.js?key=A2zNMwFx"></script>
           <script src="/js/voiceRecognition.js"></script>
-          <script language="javascript" src="js/creative_coding.js"></script>
-          <script language="javascript" src="js/canvas.js"></script>
-          <script language="javascript" src="js/mic.js"></script>
-          <script language="javascript" src="js/testLay.js"></script>
+          <script defer language="javascript" src="js/creative_coding.js"></script>
+          <script defer language="javascript" src="js/canvas.js"></script>
+          <script defer language="javascript" src="js/mic.js"></script>
+          <script defer language="javascript" src="js/testLay.js"></script>
           <script src="https://kit.fontawesome.com/e297286cae.js" crossorigin="anonymous"></script>
           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"></link>
           <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"></link>
           <script src="https://code.jquery.com/jquery.js"></script>
           <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
           <script language="javascript" src="js/draw.js"></script>
+          <script src="https://cors-anywhere.herokuapp.com/https://code.responsivevoice.org/responsivevoice.js?key=A2zNMwFx"></script>
         </Helmet>
         <Container fluid>
           <Jumbotron />
