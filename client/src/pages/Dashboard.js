@@ -39,7 +39,7 @@ class Dashboard extends Component {
           <Row>
             <div className="mx-auto p-4">
               <Col size="md-12">
-                <button id="thisButton" className="btn btn-success" to="/"><i id="micIcon" class="fas fa-microphone-alt fa-5x"></i></button>
+                <button id="thisButton" className="btn btn-success" to="/"><i id="micIcon" class="fas fa-microphone-alt fa-4x"></i></button>
               </Col>
             </div>
           </Row>
