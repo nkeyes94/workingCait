@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <!-- * Importing our required scrips -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <!-- ? FaceAPI - MAIN -->
+    <script src="face-api.js"></script>
+    <script type = "text/javascript" src="js/recognition.js"></script>
+    <script src="js/commons.js"></script>
+    <script src="js/faceDetectionControls.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+
+</head>
+<body>
+
+    <!-- * Creating our video element -->
+    <div style="position: relative" class="margin">
+            <video onplay="onPlay(this)" id="inputVideo" autoplay muted></video>
+            <canvas id="overlay" />
+    </div>
+
+</body>
+</html>
+
+<script>
+    var videoInput = document.getElementById("inputVideo");
+
+    async function onPlay(){
+        const videoEl = $('#inputVideo').get(0)                                      // * Getting the webcam video 
+
+        if(videoEl.paused || videoEl.ended || !isFaceDetectionModelLoaded())
+            return setTimeout(() => onPlay())
+        setTimeout(() => onPlay())
+    }
+
+    async function updateResults(){
+        console.log("Update res");
+        if(!isFaceDetectionModelLoaded()){
+            return
+        }
+
+        const videoEl = $("#inputVideo").get(0);
+
+        const options = getFaceDetectorOptions();
+        const results = await faceapi
+            .detectAllFaces(videoEl, options)
+            .withFaceLandmarks()
+            .withFaceDescriptors()
+
+        drawFaceRecognitionResults(results);
+    }
+
+    function drawFaceRecognitionResults(results){
+        console.log("draw face recog")
+        const canvas = $("#overlay").get(0);
+        const videoEl = $("#inputVideo").get(0);
+
+        faceapi.matchDimensions(canvas, videoEl);
+
+        const resizeResults = faceapi.resizeResults(results, videoEl)
+
+        resizedResults.forEach(({ detection, descriptor }) => {
+            const label = faceMatcher.findBestMatch(descriptor).toString();
+            const options = { label };
+            const drawBox = new faceapi.draw.drawBox(detection.box, options);
+            drawBox.draw(canvas);
+        })
+    }
+
+    async function run(){
+        console.log("run")
+        await faceapi.loadFaceLandmarkModel("/");
+        await faceapi.loadFaceRecognitionModel("/");
+
+        const stream = await navigator.mediaDevices.getUserMedia({ video: {} })
+        const videoEl = $('#inputVideo').get(0)
+        videoEl.srcObject = stream
+
+        faceMatcher = await createFaceMatcher(1);
+        updateResults();
+    }
+
+    $(document).ready(function(){
+        run();
+    })
+
+</script>

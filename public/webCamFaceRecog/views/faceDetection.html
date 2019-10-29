@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <!-- * Importing our required scrips -->
+    <!-- ? FaceAPI - MAIN -->
+    <script src="face-api.js"></script>
+    <script src="js/commons.js"></script>
+    <script src="js/faceDetectionControls.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+
+</head>
+<body>
+
+        <input type=button value=run id="btnOne"><br><br>
+
+        <video onloadedmetadata="onPlay(this)" id="inputVideo" autoplay muted  width="640" height="480" style=" border: 1px solid #ddd;"></video><br>
+        <canvas id="overlay" width="640" height="480" style="position:relative; top:-487px; border: 1px solid #ddd;" ></canvas><br>
+    
+</body>
+</html>
+
+<script>
+    // * Grabbing the elements required for the application
+    var videoInput = document.getElementById("inputVideo");
+    var startBtn = document.getElementById("btnOne");
+
+    // * Console logging our faceapi to ensure it's loading models correctly
+    console.log(faceapi.nets);
+
+    // * Onclick function to begin the facial recognition
+    startBtn.onclick = function(){
+        console.log("Btn hit");                 // * Console logging the action to ensure it's working
+        run();                                  // * Calling the run() function.
+    }
+
+    // * Run function
+    async function onPlay(){
+        const videoEl = $('#inputVideo').get(0)                                      // * Getting the webcam video 
+
+        if(videoEl.paused || videoEl.ended || !isFaceDetectionModelLoaded())
+            return setTimeout(() => onPlay())
+
+        const options = getFaceDetectorOptions();                                   // * Pulling the face detector options
+        const ts = Date.now();
+        const result = await faceapi.detectSingleFace(videoEl, options);
+        console.log("RES: "+ JSON.stringify(result));
+        console.log("After res...");
+        if(result){
+            const canvas = $("#overlay").get(0);
+            const dims = faceapi.matchDimensions(canvas, videoEl, true);
+            faceapi.draw.drawDetections(canvas, faceapi.resizeResults(result, dims))
+        }
+        setTimeout(() => onPlay())
+    }
+
+    // * Face detectors
+        // TINY_FACE_DETECTOR
+        // SSD_MOBILENETV1
+        // MTCNN
+    async function run() {
+      // load face detection model
+      await changeFaceDetector(SSD_MOBILENETV1)
+      changeInputSize(128)
+
+      // try to access users webcam and stream the images
+      // to the video element
+      const stream = await navigator.mediaDevices.getUserMedia({ video: {} })
+      const videoEl = $('#inputVideo').get(0)
+      videoEl.srcObject = stream
+    }
+</script>
