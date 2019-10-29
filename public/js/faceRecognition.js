@@ -7,8 +7,15 @@
 $(document).ready(function(){
     faceapi.onload = function() { loadModels() }
     loadModels().then(function(){
-        var inVid = document.getElementById("inputVideo");
-        onPlay(inVid);
+        // var inVid = document.getElementById("inputVideo");
+        // onPlay(inVid);
+        if(ssdLoaded == true &&
+            landMarkLoaded== true &&
+            recognitionLoaded == true){
+                console.log("All models loaded: true");
+                var inVid = document.getElementById("inputVideo");
+                setTimeout(onPlay(inVid), 3000)
+            }
     })
 });
 
