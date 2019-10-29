@@ -24,8 +24,13 @@ class Dashboard extends Component {
           <script language="javascript" src="js/creative_coding.js"></script>
           <script language="javascript" src="js/canvas.js"></script>
           <script language="javascript" src="js/mic.js"></script>
-          <script language="javascript" src="js/draw.js"></script>
           <script language="javascript" src="js/testLay.js"></script>
+          <script src="https://kit.fontawesome.com/e297286cae.js" crossorigin="anonymous"></script>
+          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"></link>
+          <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"></link>
+          <script src="https://code.jquery.com/jquery.js"></script>
+          <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+          <script language="javascript" src="js/draw.js"></script>
         </Helmet>
         <Container fluid>
           <Jumbotron />
@@ -34,7 +39,7 @@ class Dashboard extends Component {
           <Row>
             <div className="mx-auto p-4">
               <Col size="md-12">
-                <button id="thisButton" className="btn btn-success" to="/"></button>
+                <button id="thisButton" className="btn btn-success" to="/"><i id="micIcon" class="fas fa-microphone-alt fa-5x"></i></button>
               </Col>
             </div>
           </Row>
